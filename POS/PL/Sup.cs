@@ -65,12 +65,27 @@ namespace POS.PL
             {
                // int ID_S = Convert.ToInt32(txtref.Text);
                 int Cust_id = Convert.ToInt32(txtref.Text);
-                RPT.P_Supp rpt = new RPT.P_Supp();
+                RPT. rpt_S_Ord rpt = new RPT.rpt_S_Ord();
                 RPT.FRM_RPT_PRODUCT frm = new RPT.FRM_RPT_PRODUCT();
+                rpt.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
+                rpt.DataSourceConnections[0].IntegratedSecurity = false;
+                rpt.Refresh();
                 rpt.SetParameterValue("@ID_Supp", Cust_id);
                 frm.CR1.ReportSource = rpt;
                 frm.ShowDialog();
                 this.Cursor = Cursors.Default;
+
+              //  int Cust_id = Convert.ToInt32(txtref.Text);
+                RPT.cash_sup rpt2 = new RPT.cash_sup();
+                RPT.FRM_Report frm2 = new RPT.FRM_Report();
+                rpt2.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
+                rpt2.DataSourceConnections[0].IntegratedSecurity = false;
+                rpt2.Refresh();
+                rpt2.SetParameterValue("@id", Cust_id);
+                frm2.crystalReportViewer1.ReportSource = rpt2;
+                frm2.ShowDialog();
+                this.Cursor = Cursors.Default;
+
 
                 /*RPT.P_Supp rpt2 = new RPT.P_Supp();
                 RPT.FRM_RPT_PRODUCT frm = new RPT.FRM_RPT_PRODUCT();
@@ -92,6 +107,7 @@ namespace POS.PL
         private void Sup_Load(object sender, EventArgs e)
         {
             this.dataGridView1.DataSource = sup.GET_ALL_sup();
+            dataGridView1.Columns[5].Visible = false;
 
         }
 
@@ -150,33 +166,52 @@ namespace POS.PL
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if (ID == 0)
+            try
             {
-                MessageBox.Show("Customer Not Select", "Delete", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                // int ID_S = Convert.ToInt32(txtref.Text);
+                int Cust_id = Convert.ToInt32(txtref.Text);
+                RPT.tesr rpt = new RPT.tesr();
+                rpt.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
+                rpt.DataSourceConnections[0].IntegratedSecurity = false;
+                RPT.FRM_RPT_PRODUCT frm = new RPT.FRM_RPT_PRODUCT();
+                rpt.Refresh();
+                rpt.SetParameterValue("@c_id", Cust_id);
+                frm.CR1.ReportSource = rpt;
+                frm.ShowDialog();
+                this.Cursor = Cursors.Default;
+
+                /*RPT.P_Supp rpt2 = new RPT.P_Supp();
+                RPT.FRM_RPT_PRODUCT frm = new RPT.FRM_RPT_PRODUCT();
+                rpt2.SetParameterValue("@ID_Sup",ID_S);
+                rpt2.Refresh();
+                frm.CR1.ReportSource = rpt2;
+                frm.ShowDialog();*/
             }
-            if (MessageBox.Show("Delete Customer..", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            catch
             {
-                sup.Delete_Suppliers(ID);
-                this.dataGridView1.DataSource = sup.GET_ALL_sup();
+                MessageBox.Show("Select Suppliare");
+                this.Cursor = Cursors.Default;
 
-
-                txtref.Text = null;
-                txtf_name.Text = null;
-                txtL_name.Text = null;
-                txtemail.Text = null;
-                txtPh.Text = null;
-                pbox.Image = POS.Properties.Resources.ID2;
-                btnsave.Enabled = false;
-                btnadd.Enabled = true;
-                txtf_name.Focus();
-
+                return;
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (txtref.Text == "")
+            { return; }
+            else
+            {
+                s_debt df = new s_debt();
+                df.textBox3.Text = txtref.Text;
+                df.textBox2.Text = txtf_name.Text + " " + txtL_name.Text;
+                df.ShowDialog();
+            }
         }
     }
 }

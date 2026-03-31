@@ -27,7 +27,11 @@ namespace POS.PL
         public FRM_USER()
         {
             InitializeComponent();
+            cptype.DataSource = log.get_groups();
+            cptype.ValueMember = "id";
+            cptype.DisplayMember = "name";
             dataGridView1.DataSource = log.getalluser();
+            dataGridView1.Columns[2].Visible = false;
         }
 
         private void FRM_USER_Load(object sender, EventArgs e)
@@ -79,6 +83,8 @@ namespace POS.PL
         {
             PL.FRM_ADD_USER frm = new FRM_ADD_USER();
             frm.ShowDialog();
+            dataGridView1.DataSource = log.getalluser();
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -88,7 +94,7 @@ namespace POS.PL
 
         private void button11_Click(object sender, EventArgs e)
         {
-            log.EDIT_USER(txtref.Text, txtf_name.Text, txtL_name.Text, cptype.Text);
+            log.EDIT_USER(txtref.Text, txtf_name.Text, txtL_name.Text, cptype.Text, Convert.ToInt32(cptype.SelectedValue));
             clear();
         }
 

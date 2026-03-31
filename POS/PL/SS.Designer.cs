@@ -36,6 +36,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.Ver = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,16 +45,18 @@
             // 
             this.prg2.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.prg2.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.prg2.Location = new System.Drawing.Point(12, 343);
+            this.prg2.Location = new System.Drawing.Point(16, 337);
             this.prg2.Name = "prg2";
             this.prg2.Size = new System.Drawing.Size(678, 14);
+            this.prg2.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.prg2.TabIndex = 0;
-            this.prg2.Value = 50;
+            this.prg2.Value = 25;
             this.prg2.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // timer1
             // 
             this.timer1.Enabled = true;
+            this.timer1.Interval = 25;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick_2);
             // 
             // pictureBox1
@@ -62,7 +66,7 @@
             this.pictureBox1.InitialImage = global::POS.Properties.Resources._000;
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(678, 325);
+            this.pictureBox1.Size = new System.Drawing.Size(678, 317);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -94,11 +98,31 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Berlin Sans FB", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(585, 360);
+            this.label3.Location = new System.Drawing.Point(462, 363);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(105, 18);
+            this.label3.Size = new System.Drawing.Size(226, 18);
             this.label3.TabIndex = 3;
-            this.label3.Text = "+249121456244";
+            this.label3.Text = "+966596799343 - +249909263331 ";
+            // 
+            // Ver
+            // 
+            this.Ver.AutoSize = true;
+            this.Ver.Font = new System.Drawing.Font("Bauhaus 93", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Ver.ForeColor = System.Drawing.Color.DimGray;
+            this.Ver.Location = new System.Drawing.Point(505, 300);
+            this.Ver.Name = "Ver";
+            this.Ver.Size = new System.Drawing.Size(39, 21);
+            this.Ver.TabIndex = 4;
+            this.Ver.Text = "0.0";
+            // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("Cairo SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(16, 354);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(678, 23);
+            this.label4.TabIndex = 5;
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SS
             // 
@@ -106,16 +130,20 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(702, 388);
+            this.Controls.Add(this.Ver);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.prg2);
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SS";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SS";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.SS_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -131,5 +159,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label Ver;
+        private System.Windows.Forms.Label label4;
     }
 }

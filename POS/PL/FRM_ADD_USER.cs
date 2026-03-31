@@ -16,6 +16,9 @@ namespace POS.PL
         public FRM_ADD_USER()
         {
             InitializeComponent();
+            cptype.DataSource = log.get_groups();
+            cptype.ValueMember = "id";
+            cptype.DisplayMember = "name";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -39,7 +42,7 @@ namespace POS.PL
                 return;
             }
             try { 
-            log.ADD_USER(txtUID.Text, txtfname.Text, txtPass.Text, cptype.Text);
+            log.ADD_USER(txtUID.Text, txtfname.Text, txtPass.Text, cptype.Text,Convert.ToInt32(cptype.SelectedValue));
             MessageBox.Show("User Added", "New User", MessageBoxButtons.OK, MessageBoxIcon.Information);
             txtUID.Clear();
             txtPass.Clear();
@@ -60,6 +63,11 @@ namespace POS.PL
                 MessageBox.Show("Chick User Password", "New User", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+        }
+
+        private void FRM_ADD_USER_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

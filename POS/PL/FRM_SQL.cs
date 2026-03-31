@@ -13,7 +13,7 @@ namespace POS.PL
 {
     public partial class FRM_SQL : Form
     {
-      
+        BL.CLS_LOGIN log = new BL.CLS_LOGIN();
         public FRM_SQL()
         {
             InitializeComponent();
@@ -64,14 +64,26 @@ namespace POS.PL
 
         private void button11_Click_1(object sender, EventArgs e)
         {
+            SqlConnection sqlc;
+         
             Properties.Settings.Default.Server = txtserver.Text;
             Properties.Settings.Default.Database = txtdatabase.Text;
             Properties.Settings.Default.mode = rbsql.Checked == true ? "SQL" : "Windows";
             Properties.Settings.Default.ID = txtid.Text;
             Properties.Settings.Default.password = txtPWD.Text;
             Properties.Settings.Default.Save();
-            MessageBox.Show("SQL Connection Save", "Save", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            this.Close();
+           try
+            {
+                log.shift_ls();
+                MessageBox.Show("تم حفظ بيانات الأتصال", "حفظ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                this.Close();
+            }
+           catch
+           {
+               MessageBox.Show("لا يمكن حفظ بيانات الأتصال", "حفظ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+               return;
+           }
+           
 
         }
 
@@ -90,6 +102,16 @@ namespace POS.PL
         private void button1_Click_1(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtid_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

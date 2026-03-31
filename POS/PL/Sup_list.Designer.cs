@@ -38,24 +38,28 @@
             this.dgvCL.AllowUserToAddRows = false;
             this.dgvCL.AllowUserToDeleteRows = false;
             this.dgvCL.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvCL.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dgvCL.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCL.Location = new System.Drawing.Point(0, 0);
+            this.dgvCL.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgvCL.Name = "dgvCL";
             this.dgvCL.ReadOnly = true;
-            this.dgvCL.Size = new System.Drawing.Size(716, 335);
+            this.dgvCL.Size = new System.Drawing.Size(835, 412);
             this.dgvCL.TabIndex = 1;
             this.dgvCL.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCL_CellContentClick);
             this.dgvCL.DoubleClick += new System.EventHandler(this.dgvCL_DoubleClick_1);
+            this.dgvCL.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvCL_KeyDown);
             // 
             // Sup_list
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(716, 335);
+            this.ClientSize = new System.Drawing.Size(835, 412);
             this.Controls.Add(this.dgvCL);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Sup_list";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sup_list";

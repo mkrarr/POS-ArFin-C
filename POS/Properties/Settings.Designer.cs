@@ -25,25 +25,13 @@ namespace POS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(".")]
+        [global::System.Configuration.DefaultSettingValueAttribute("mk-dbs")]
         public string Server {
             get {
                 return ((string)(this["Server"]));
             }
             set {
                 this["Server"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SMS_DB")]
-        public string Database {
-            get {
-                return ((string)(this["Database"]));
-            }
-            set {
-                this["Database"] = value;
             }
         }
         
@@ -73,7 +61,7 @@ namespace POS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ASD@123")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ASD@1234")]
         public string password {
             get {
                 return ((string)(this["password"]));
@@ -85,7 +73,7 @@ namespace POS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-")]
         public string PrinterR {
             get {
                 return ((string)(this["PrinterR"]));
@@ -97,13 +85,242 @@ namespace POS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-")]
         public string PrinterRPT {
             get {
                 return ((string)(this["PrinterRPT"]));
             }
             set {
                 this["PrinterRPT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("SMS_NEW")]
+        public string Database {
+            get {
+                return ((string)(this["Database"]));
+            }
+            set {
+                this["Database"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Actev {
+            get {
+                return ((bool)(this["Actev"]));
+            }
+            set {
+                this["Actev"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string inv {
+            get {
+                return ((string)(this["inv"]));
+            }
+            set {
+                this["inv"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public string PAT {
+            get {
+                return ((string)(this["PAT"]));
+            }
+            set {
+                this["PAT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Last_login {
+            get {
+                return ((string)(this["Last_login"]));
+            }
+            set {
+                this["Last_login"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=SMS_FIN;Persist Security Info=True;User ID=sa;Passw" +
+            "ord=123")]
+        public string SMS_FINConnectionString {
+            get {
+                return ((string)(this["SMS_FINConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=SMS_FIN;Integrated Security=True")]
+        public string SMS_FINConnectionString1 {
+            get {
+                return ((string)(this["SMS_FINConnectionString1"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MK-SMS")]
+        public string Appname {
+            get {
+                return ((string)(this["Appname"]));
+            }
+            set {
+                this["Appname"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MK-SMS Report")]
+        public string REP_NAME {
+            get {
+                return ((string)(this["REP_NAME"]));
+            }
+            set {
+                this["REP_NAME"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
+        public string qr_path {
+            get {
+                return ((string)(this["qr_path"]));
+            }
+            set {
+                this["qr_path"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-")]
+        public string PrinterKET {
+            get {
+                return ((string)(this["PrinterKET"]));
+            }
+            set {
+                this["PrinterKET"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
+        public string BR_path {
+            get {
+                return ((string)(this["BR_path"]));
+            }
+            set {
+                this["BR_path"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
+        public string m_path {
+            get {
+                return ((string)(this["m_path"]));
+            }
+            set {
+                this["m_path"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=SMS_NEW;Integrated Security=True")]
+        public string SMS_NEWConnectionString {
+            get {
+                return ((string)(this["SMS_NEWConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=SMS_NEW;User ID=sa;Password=123")]
+        public string SMS_NEW {
+            get {
+                return ((string)(this["SMS_NEW"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=db-ser;Initial Catalog=SMS_NEW;Persist Security Info=True;User ID=sa;" +
+            "Password=123")]
+        public string SMS_NEW_dbser {
+            get {
+                return ((string)(this["SMS_NEW_dbser"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\mkrar\\OneDrive\\Desktop\\QC")]
+        public string path2 {
+            get {
+                return ((string)(this["path2"]));
+            }
+            set {
+                this["path2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("+249909263331 - +966596799343")]
+        public string mk_tel {
+            get {
+                return ((string)(this["mk_tel"]));
+            }
+            set {
+                this["mk_tel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No")]
+        public string POS {
+            get {
+                return ((string)(this["POS"]));
+            }
+            set {
+                this["POS"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft Sans Serif, 9pt, style=Bold")]
+        public global::System.Drawing.Font ASD {
+            get {
+                return ((global::System.Drawing.Font)(this["ASD"]));
             }
         }
     }

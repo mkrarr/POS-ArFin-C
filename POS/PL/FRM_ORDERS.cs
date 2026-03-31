@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Data.SqlClient;
 using System.Globalization;
+using Spire.Barcode;
+using QRCoder;
 
 
 namespace POS.PL
@@ -20,14 +22,92 @@ namespace POS.PL
         BL.CLS_ORDERS ORD = new BL.CLS_ORDERS();
         BL.CLS_PRODUCTS prd = new BL.CLS_PRODUCTS();
         BL.CLS_CUSTOMERS cus = new BL.CLS_CUSTOMERS();
+        BL.ZatcaQrCodeGenerator zk2 = new BL.ZatcaQrCodeGenerator();
+
         DataTable dt = new DataTable();
-        
+        Image V_qr;
+        string barc = "";
+        decimal AMT = 0;
+        void qrcoceq()
+        {
+            Image V_qr;
+            BL.ZatcaQrCodeGenerator zk2 = new BL.ZatcaQrCodeGenerator();
+            string barc = "";
+            decimal AMT = Convert.ToDecimal(TXTAMOS.Text);
+            barc = zk2.GenerateQrCodeBase64(Program.location, Program.TAX_ID, DateTime.Now, AMT, Convert.ToDecimal(0.15 * Convert.ToDouble(AMT)),TXTOID.Text);
+
+
+            string data = barc;
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
+            V_qr = qrCodeImage;
+
+            MemoryStream ms = new MemoryStream();
+            V_qr.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            byte[] byteImage = ms.ToArray();
+
+            ORD.py_qr(Convert.ToInt32(TXTOID.Text), byteImage);
+        }
+
+        void Bar_codeG()
+        {
+            BarcodeSettings.ApplyKey("your key");//you need a key from e-iceblue, otherwise the watermark 'E-iceblue' will be shown in barcode
+            BarcodeSettings settings = new BarcodeSettings();
+            settings.Type = BarCodeType.Code128;
+            settings.Unit = GraphicsUnit.Pixel;
+            settings.ShowText = false;
+            settings.ResolutionType = ResolutionType.UseDpi;
+            //input data
+            string data = TXTOID.Text;
+            settings.Data = data;
+
+            {
+                data = TXTOID.Text;
+                settings.Data = data;
+            }
+
+            settings.X = 1;
+            settings.BarHeight = 35;
+            settings.LeftMargin = 1;
+            settings.RightMargin = 1;
+            settings.TopMargin = 1;
+            settings.BottomMargin = 1;
+            settings.QRCodeECL = QRCodeECL.M;
+            BarCodeGenerator generator = new BarCodeGenerator(settings);
+            Image QRbarcode = generator.GenerateImage();
+            //display QR code image in picture box
+            // QR_BOX.Image = QRbarcode;
+            barcodeb.Image = QRbarcode;
+
+            barcodeb.Image.Save(Properties.Settings.Default.BR_path, System.Drawing.Imaging.ImageFormat.Png);
+            try
+            {
+                //  pbox22.Image = barcodeb.Image;
+                pbox22.ImageLocation = Properties.Settings.Default.BR_path;
+            }
+            catch
+            {
+                //pbox22.Image = barcodeb.Image;
+
+                pbox22.ImageLocation = Properties.Settings.Default.BR_path;
+                MessageBox.Show("QR Erorr");
+            }
+        }
         void Calcoulatamount()
         {
             if (txtprice.Text != string.Empty && txtqut.Text != string.Empty)
             {
-                double Amount = Convert.ToDouble(txtprice.Text) * Convert.ToDouble(txtqut.Text);
-                txtamount.Text = Amount.ToString();
+                try
+                {
+                    double Amount = Convert.ToDouble(txtprice.Text) * Convert.ToDouble(txtqut.Text);
+                    txtamount.Text = Amount.ToString();
+                }
+                catch
+                {
+                    return;
+                }
             }
         }
 
@@ -39,10 +119,10 @@ namespace POS.PL
             {
                 double descount = Convert.ToDouble(txtdescount.Text);
                 double Amount = Convert.ToDouble(txtamount.Text);
-                double Total = Amount - ((Amount * descount )/ 100);
+                double Total = Amount - ((Amount * descount) / 100);
 
                 txttotal.Text = Total.ToString();
-             }
+            }
         }
 
         void up_count()
@@ -51,7 +131,12 @@ namespace POS.PL
             int xx = xxx - 1;
             lblcount.Text = xx.ToString();
         }
-            
+
+        void chaqu()
+        {
+            ORD.add_chaque(TXTCFNAME.Text + ' ' + txtCLAST.Text, Convert.ToDateTime(date22.Text), Convert.ToDouble(c_total.Text), Convert.ToInt32(txtCID.Text), Convert.ToInt32(TXTOID.Text), Convert.ToInt32(comboBox1.SelectedValue));
+        }
+
         void Clearbox()
         {
             txtID.Clear();
@@ -65,24 +150,33 @@ namespace POS.PL
 
         }
 
-       void clear_data()
+        void clear_data()
         {
             butsave.Enabled = false;
             BUTNEW.Enabled = true;
             TXTOID.Clear();
             btnPrint.Enabled = false;
             TXToTY.Text = "-";
-          /*  TXTCFNAME.Clear();
-            txtCLAST.Clear();
-            txtcph.Clear();
-            txtcemail.Clear();
-            txtCID.Clear();
-            pbox.Image = null; */
+            /*  TXTCFNAME.Clear();
+              txtCLAST.Clear();
+              txtcph.Clear();
+              txtcemail.Clear();
+              txtCID.Clear();
+              pbox.Image = null; */
             TXTAMOS.Text = "0";
             Clearbox();
             dt.Clear();
-            dgvPro.DataSource = null;  
-
+            button3.Enabled = false;
+            dgvPro.DataSource = null;
+            txtCID.Text = "";
+            TXTCFNAME.Text = "-";
+            txtCLAST.Text = "-";
+            txtcph.Text = "-";
+            txtcemail.Text = "-";
+            //comboBox1.Text = "";
+            comboBox1.DataSource = ORD.get_pay();
+            comboBox1.DisplayMember = "Name";
+            comboBox1.ValueMember = "id";
         }
 
 
@@ -99,8 +193,8 @@ namespace POS.PL
             dgvPro.DataSource = dt;
         }
 
-   
-       
+
+
 
 
 
@@ -108,17 +202,21 @@ namespace POS.PL
         {
             this.dgvPro.RowHeadersWidth = 63;
 
-          
-            }
+
+        }
         public FRM_ORDERS()
         {
             InitializeComponent();
-           Create_dt();
+            Create_dt();
             resizeDGV();
             this.TXToEMP.Text = Program.SelasMAN;
             this.txtuid.Text = Program.UID;
 
-           // this.dgvPro.Columns[0].Visible = false;
+            comboBox1.DataSource = ORD.get_pay();
+            comboBox1.DisplayMember = "Name";
+            comboBox1.ValueMember = "id";
+
+            // this.dgvPro.Columns[0].Visible = false;
 
             this.dgvPro.Columns[0].Width = -1;
             this.dgvPro.Columns[1].Width = 70;
@@ -127,7 +225,7 @@ namespace POS.PL
             this.dgvPro.Columns[4].Width = 99;
             this.dgvPro.Columns[5].Width = 115;
             this.dgvPro.Columns[6].Width = 101;
- 
+
 
 
         }
@@ -137,7 +235,17 @@ namespace POS.PL
             this.TXTOID.Text = ORD.get_l_o_id().Rows[0][0].ToString();
             butsave.Enabled = true;
             BUTNEW.Enabled = false;
+            button3.Enabled = true;
             btnPrint.Enabled = true;
+
+            Bar_codeG();
+            qrcoceq();
+            //QR_BOX.Image.Save(Properties.Settings.Default.qr_path, System.Drawing.Imaging.ImageFormat.Png);
+            //pictureBox1.ImageLocation = Properties.Settings.Default.qr_path;
+            //barcodeb.Image.Save(Properties.Settings.Default.BR_path);
+            //pbox22.ImageLocation = Properties.Settings.Default.BR_path;
+           
+           
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -148,12 +256,14 @@ namespace POS.PL
             TXTCFNAME.Text = frm.dgvCL.CurrentRow.Cells[1].Value.ToString();
             txtCLAST.Text = frm.dgvCL.CurrentRow.Cells[2].Value.ToString();
             txtcph.Text = frm.dgvCL.CurrentRow.Cells[3].Value.ToString();
-            txtcemail.Text = frm.dgvCL.CurrentRow.Cells[4].Value.ToString();
+            try {
+                txtcemail.Text = frm.dgvCL.CurrentRow.Cells[4].Value.ToString();
 
-            byte[] Cpic = (byte[]) frm.dgvCL.CurrentRow.Cells[5].Value;
-            MemoryStream ms = new MemoryStream(Cpic);
-            pbox.Image = Image.FromStream(ms);
-
+                byte[] Cpic = (byte[])frm.dgvCL.CurrentRow.Cells[5].Value;
+                MemoryStream ms = new MemoryStream(Cpic);
+                pbox.Image = Image.FromStream(ms);
+            }
+            catch { return; }
 
 
 
@@ -166,6 +276,17 @@ namespace POS.PL
 
         private void FRM_ORDERS_Load(object sender, EventArgs e)
         {
+            this.TXTOID.Text = ORD.get_l_o_id().Rows[0][0].ToString();
+
+            if (FRM_MAIN.getMainForm.الماليةToolStripMenuItem.Enabled == true)
+            {
+                txtprice.Enabled = true;
+                txtprice.ReadOnly = false;
+            } else
+            {
+                return;
+            }
+            txtID.Text = "";
             dgvPro.Columns[0].ReadOnly = true;
             dgvPro.Columns[1].ReadOnly = true;
             dgvPro.Columns[2].ReadOnly = true;
@@ -182,6 +303,7 @@ namespace POS.PL
             int lable = rowsno  - 1;
             lblcount.Text = "Product Count   "+lable.ToString();*/
             up_count();
+            clear_data();
 
 
         }
@@ -190,22 +312,20 @@ namespace POS.PL
         {
             PL.FRM_PRO_LIST frm = new FRM_PRO_LIST();
             frm.ShowDialog();
-            txtID.Text = frm.dataGridView1.CurrentRow.Cells[0].Value.ToString();
-            txtname.Text = frm.dataGridView1.CurrentRow.Cells[1].Value.ToString();
-            txtprice.Text = frm.dataGridView1.CurrentRow.Cells[3].Value.ToString();
-            txtqut.Focus();
+            try {
+                txtID.Text = frm.dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                txtname.Text = frm.dataGridView1.CurrentRow.Cells[1].Value.ToString();
+                txtprice.Text = frm.dataGridView1.CurrentRow.Cells[3].Value.ToString();
+                txtqut.Focus();
 
-
+            }
+            catch { return; }
 
         }
 
         private void txtqut_KeyPress(object sender, KeyPressEventArgs e)
         {
 
-            if(!char.IsDigit(e.KeyChar)&& e.KeyChar!=8 && e.KeyChar !=Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator))
-            {
-                e.Handled = true;
-            }
         }
 
         private void txtqut_TextChanged(object sender, EventArgs e)
@@ -215,7 +335,7 @@ namespace POS.PL
 
         private void txtqut_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode==Keys.Enter && txtqut.Text != string.Empty)
+            if (e.KeyCode == Keys.Enter && txtqut.Text != string.Empty)
             {
                 Calcoulatamount();
                 CalcoulatTotal();
@@ -225,18 +345,15 @@ namespace POS.PL
 
         private void txtqut_KeyUp(object sender, KeyEventArgs e)
         {
-           
+
             Calcoulatamount();
-             CalcoulatTotal();
-            
+            CalcoulatTotal();
+
         }
 
         private void txtdescount_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator))
-            {
-                e.Handled = true;
-            }
+
         }
 
         private void txtdescount_KeyUp(object sender, KeyEventArgs e)
@@ -246,62 +363,64 @@ namespace POS.PL
 
         private void txtdescount_KeyDown(object sender, KeyEventArgs e)
         {
-           
-                if (e.KeyCode == Keys.Enter)
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                up_count();
+
+                if (txtname.Text == "")
                 {
-                    up_count();
-
-                    if(txtname.Text=="")
-                    {
-                        txtID.Focus();
-                        return;
-                    }else
-                    if (ORD.VQUN(txtID.Text, Convert.ToInt32(txtqut.Text)).Rows.Count < 1)
-                    {
-                        MessageBox.Show("           Product    "+txtname.Text +"   Out of Stock        ", "Add", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-
-                    }
-                    for (int i = 0; i < dgvPro.Rows.Count -1 ; i++)
-                    {
-                        if (dgvPro.Rows[i].Cells[1].Value.ToString() == txtID.Text)
-                        {
-                            if (MessageBox.Show("Product add as new", "Add", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                            {
-                                Clearbox();
-                                return;
-                            }
-                            else
-                            {
-                                up_count();
-                            }
-                           
-                        }
-
-                    }
-                    DataRow r = dt.NewRow();
-                    r[0] = txtID.Text;
-                    r[1] = txtname.Text;
-                    r[2] = txtprice.Text;
-                    r[3] = txtqut.Text;
-                    r[4] = txtamount.Text;
-                    r[5] = txtdescount.Text;
-                    r[6] = txttotal.Text;
-
-                    dt.Rows.Add(r);
-                    dgvPro.DataSource = dt;
-                    Clearbox();
-                    TXTAMOS.Text = (from DataGridViewRow row in dgvPro.Rows
-                                    where row.Cells[7].FormattedValue.ToString() != string.Empty
-                                    select Convert.ToDouble(row.Cells[7].FormattedValue)).Sum().ToString();
-                    up_count();
+                    txtID.Focus();
+                    return;
+                } else
+                if (ORD.VQUN(txtID.Text, Convert.ToDouble(txtqut.Text)).Rows.Count < 1)
+                {
+                    MessageBox.Show("           Product    " + txtname.Text + "   Out of Stock        ", "Add", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
 
                 }
+                for (int i = 0; i < dgvPro.Rows.Count - 1; i++)
+                {
+                    if (dgvPro.Rows[i].Cells[1].Value.ToString() == txtID.Text)
+                    {
+                     //   MessageBox.Show("المنتج مطلوب مسبقاً الرجاء تعديل الكمية", "منتج", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                        {
+                            dgvPro.Rows[i].Cells[4].Value =  (Convert.ToDouble(dgvPro.Rows[i].Cells[4].Value) + Convert.ToDouble(txtqut.Text)).ToString();
+                            dgvPro.Rows[i].Cells[5].Value = (Convert.ToDouble(dgvPro.Rows[i].Cells[4].Value) * Convert.ToDouble(dgvPro.Rows[i].Cells[3].Value)).ToString();
+                            dgvPro.Rows[i].Cells[7].Value=(Convert.ToDouble(dgvPro.Rows[i].Cells[5].Value)-(Convert.ToDouble(dgvPro.Rows[i].Cells[5].Value)*(Convert.ToDouble(dgvPro.Rows[i].Cells[6].Value))/100)).ToString();
+
+                            Clearbox();
+                            return;
+                        }
+                       
+
+                    }
+
+                }
+                DataRow r = dt.NewRow();
+                r[0] = txtID.Text;
+                r[1] = txtname.Text;
+                r[2] = txtprice.Text;
+                r[3] = txtqut.Text;
+                r[4] = txtamount.Text;
+                r[5] = txtdescount.Text;
+                r[6] = txttotal.Text;
+
+                dt.Rows.Add(r);
+                dgvPro.DataSource = dt;
+                Clearbox();
+
+                TXTAMOS.Text = (from DataGridViewRow row in dgvPro.Rows
+                                where row.Cells[7].FormattedValue.ToString() != string.Empty
+                                select Convert.ToDouble(row.Cells[7].FormattedValue)).Sum().ToString();
+                up_count();
+
+            }
         }
 
         private void txtdescount_TextChanged(object sender, EventArgs e)
         {
-            if (txtdescount.Text == "" || Convert.ToInt32(txtdescount.Text) < 0 || Convert.ToInt32(txtdescount.Text) > 100)
+            if (txtdescount.Text == "" || Convert.ToDouble(txtdescount.Text) < 0 || Convert.ToDouble(txtdescount.Text) > 100)
             {
                 MessageBox.Show("           Not Allow...       ");
                 txtdescount.Text = "0";
@@ -337,6 +456,7 @@ namespace POS.PL
             }
             catch
             {
+                MessageBox.Show("لا توجد بيانات");
                 return;
             }
         }
@@ -371,29 +491,35 @@ namespace POS.PL
 
             dt.Clear();
             dgvPro.Refresh();
-        
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             up_count();
 
-             if (dgvPro.Rows.Count<2)
+            if (dgvPro.Rows.Count < 2)
             {
                 MessageBox.Show("Select Product to Delete");
 
-                 return;
+                return;
             }
             else
             {
                 dgvPro.Rows.RemoveAt(dgvPro.CurrentRow.Index);
             }
-        
+
         }
 
         private void butsave_Click(object sender, EventArgs e)
         {
-            if(TXTOID.Text==string.Empty || txtCID.Text== string.Empty || dgvPro.Rows.Count<2|| TXToTY.Text==string.Empty)
+           
+                qrcoceq();
+          
+           
+            Bar_codeG();
+
+            if (TXTOID.Text == string.Empty || txtCID.Text == string.Empty || dgvPro.Rows.Count < 2 || TXToTY.Text == string.Empty || comboBox1.Text == string.Empty)
             {
                 MessageBox.Show("Fill All Information", "Save", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
@@ -407,43 +533,90 @@ namespace POS.PL
                 log.ShowDialog();
                 return;
             }
-            this.TXTOID.Text = ORD.get_l_o_id().Rows[0][0].ToString();
-        //    butsave.Enabled = true;
-         //   BUTNEW.Enabled = false;
-           // btnPrint.Enabled = true;
-            ORD.ADD_ORDER(Convert.ToInt32(TXTOID.Text), Convert.ToDateTime(oDATE1.Text), Convert.ToInt32(txtCID.Text), TXToTY.Text, TXToEMP.Text,txtamm2.Text,txtuid.Text,Program.IPA,Program.PC,TXTCFNAME.Text);
-            
-            for(int i=0; i<dgvPro.Rows.Count-1;i++)
+           // this.TXTOID.Text = ORD.get_l_o_id().Rows[0][0].ToString();
+            //    butsave.Enabled = true;
+            //   BUTNEW.Enabled = false;
+            // btnPrint.Enabled = true;
+            if (Convert.ToInt32(comboBox1.SelectedValue) == 3 || Convert.ToInt32(comboBox1.SelectedValue) == 33)
+            {
+                chaqu();
+            }
+            else
+            {
+                groupBox5.Visible = false;
+
+            }
+            ORD.ADD_ORDER(Convert.ToInt32(TXTOID.Text), DateTime.Now, Convert.ToInt32(txtCID.Text), TXToTY.Text, TXToEMP.Text, txtamm2.Text, txtuid.Text, Program.IPA, Program.PC, TXTCFNAME.Text, Convert.ToDouble(txtdep.Text), Convert.ToDouble(txtpay.Text), Convert.ToInt32(comboBox1.SelectedValue), 1, "Cash", "Name", 0, 0);
+            qrcoceq();
+            Bar_codeG();
+
+
+            for (int xc = 0; xc < 10; xc++)
+            {
+                qrcoceq();
+                MemoryStream ms = new MemoryStream();
+                pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
+                byte[] byteImage = ms.ToArray();
+
+                ORD.save_QR(Convert.ToInt32(TXTOID.Text), byteImage);
+            }
+            //Bar Code Save
+            Bar_codeG();
+            MemoryStream ms2 = new MemoryStream();
+            pbox22.Image.Save(ms2, pbox22.Image.RawFormat);
+            byte[] btimg = ms2.ToArray();
+            ORD.save_Bar(Convert.ToInt32(TXTOID.Text), btimg);
+
+
+            ORD.add_cash_histoty(Program.UID, Convert.ToDouble(txtpay.Text), 0, Convert.ToInt32(comboBox1.SelectedValue), "فاتورة مبيعات", TXTCFNAME.Text + ' ' + txtCLAST.Text, Convert.ToInt32(TXTOID.Text), DateTime.Now, 1, Convert.ToInt32(txtCID.Text));
+            cus.add_dept(Convert.ToInt32(txtCID.Text), Convert.ToDouble(txtdep.Text));
+            for (int i = 0; i < dgvPro.Rows.Count - 1; i++)
             {
                 ORD.ADD_ORDER_DETAILS(dgvPro.Rows[i].Cells[1].Value.ToString(),
-                                       Convert.ToInt32(TXTOID.Text),
-                                      Convert.ToInt32(dgvPro.Rows[i].Cells[4].Value),
-                                       dgvPro.Rows[i].Cells[3].Value.ToString(),
-                                       Convert.ToInt32(dgvPro.Rows[i].Cells[6].Value),
-                                       dgvPro.Rows[i].Cells[5].Value.ToString(),
-                                       dgvPro.Rows[i].Cells[7].Value.ToString());
-
-
-
-               
+                                        Convert.ToInt32(TXTOID.Text),
+                                       Convert.ToDouble(dgvPro.Rows[i].Cells[4].Value),
+                                        dgvPro.Rows[i].Cells[3].Value.ToString(),
+                                        Convert.ToDouble(dgvPro.Rows[i].Cells[6].Value),
+                                        dgvPro.Rows[i].Cells[5].Value.ToString(),
+                                        dgvPro.Rows[i].Cells[7].Value.ToString());
             }
-            MessageBox.Show("Order Save", "Order", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            clear_data();      
-         
+            for (int xc = 0; xc < 10; xc++)
+            {
+                qrcoceq();
+                MemoryStream ms = new MemoryStream();
+                pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
+                byte[] byteImage = ms.ToArray();
+
+                ORD.save_QR(Convert.ToInt32(TXTOID.Text), byteImage);
+            }
+            MessageBox.Show("تم الحفظ بالرقم " + TXTOID.Text + "  ", "حفظ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            clear_data();
+
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            DataTable vcs = new DataTable();
-            vcs = cus.v_cus(Convert.ToInt32(txtCID.Text));
-            if(vcs.Rows.Count<1)
-            {
-                MessageBox.Show("       Customer Not Found     ", "Save", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-            if (TXTOID.Text == string.Empty || txtCID.Text == string.Empty || dgvPro.Rows.Count < 2 || TXToTY.Text == string.Empty)
+            qrcoceq();
+            Bar_codeG();
+
+            QR_BOX.Image.Save(Properties.Settings.Default.qr_path, System.Drawing.Imaging.ImageFormat.Png);
+            pictureBox1.ImageLocation = Properties.Settings.Default.qr_path;
+            barcodeb.Image.Save(Properties.Settings.Default.BR_path);
+            pbox22.ImageLocation = Properties.Settings.Default.BR_path;
+
+
+
+            if (TXTOID.Text == string.Empty || txtCID.Text == string.Empty || dgvPro.Rows.Count < 2 || TXToTY.Text == string.Empty || comboBox1.Text == "")
             {
                 MessageBox.Show("Fill All Information", "Save", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            DataTable vcs = new DataTable();
+            vcs = cus.v_cus(Convert.ToInt32(txtCID.Text));
+            if (vcs.Rows.Count < 1)
+            {
+                MessageBox.Show("       Customer Not Found     ", "Save", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -455,46 +628,148 @@ namespace POS.PL
                 log.ShowDialog();
                 return;
             }
-            this.TXTOID.Text = ORD.get_l_o_id().Rows[0][0].ToString();
+          //  this.TXTOID.Text = ORD.get_l_o_id().Rows[0][0].ToString();
+            if (Convert.ToInt32(comboBox1.SelectedValue) == 3 || Convert.ToInt32(comboBox1.SelectedValue) == 33)
+            {
+                chaqu();
+            }
+            else
+            {
+                groupBox5.Visible = false;
 
-            ORD.ADD_ORDER(Convert.ToInt32(TXTOID.Text), Convert.ToDateTime(oDATE1.Text), Convert.ToInt32(txtCID.Text), TXToTY.Text, TXToEMP.Text, txtamm2.Text, txtuid.Text, Program.IPA, Program.PC, TXTCFNAME.Text);
+            }
+            //Image img = ORD.qrCode(TXTOID.Text + "_" + TXTAMOS.Text, TXTOID.Text);
+
+            ORD.ADD_ORDER(Convert.ToInt32(TXTOID.Text), DateTime.Now, Convert.ToInt32(txtCID.Text), TXToTY.Text, TXToEMP.Text, txtamm2.Text, txtuid.Text, Program.IPA, Program.PC, TXTCFNAME.Text, Convert.ToDouble(txtdep.Text), Convert.ToDouble(txtpay.Text), Convert.ToInt32(comboBox1.SelectedValue), 1, "Cash", "Name", 0, 0);
+
+
+            //QR Save
+            qrcoceq();
+
+            QR_BOX.Image.Save(Properties.Settings.Default.qr_path, System.Drawing.Imaging.ImageFormat.Png);
+            pictureBox1.ImageLocation = Properties.Settings.Default.qr_path; 
+            
+           
+            //MemoryStream ms = new MemoryStream();
+            //pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
+            //byte[] byteImage = ms.ToArray();
+            //ORD.save_QR(Convert.ToInt32(TXTOID.Text), byteImage);
+            ////Bar Code Save
+            //Bar_codeG();
+            //barcodeb.Image.Save(Properties.Settings.Default.BR_path);
+            //pbox22.ImageLocation = Properties.Settings.Default.BR_path;
+            //MemoryStream ms2 = new MemoryStream();
+            //pbox22.Image.Save(ms2, pbox22.Image.RawFormat);
+            //byte[] btimg = ms2.ToArray();
+            //ORD.save_Bar(Convert.ToInt32(TXTOID.Text), btimg);
+
+            
+            ORD.add_cash_histoty(Program.UID, Convert.ToDouble(txtpay.Text), 0, Convert.ToInt32(comboBox1.SelectedValue), "فاتورة مبيعات", TXTCFNAME.Text + ' ' + txtCLAST.Text, Convert.ToInt32(TXTOID.Text), DateTime.Now, 1, Convert.ToInt32(txtCID.Text));
+
+            cus.add_dept(Convert.ToInt32(txtCID.Text), Convert.ToDouble(txtdep.Text));
+
 
             for (int i = 0; i < dgvPro.Rows.Count - 1; i++)
             {
                 ORD.ADD_ORDER_DETAILS(dgvPro.Rows[i].Cells[1].Value.ToString(),
                                        Convert.ToInt32(TXTOID.Text),
-                                      Convert.ToInt32(dgvPro.Rows[i].Cells[4].Value),
+                                      Convert.ToDouble(dgvPro.Rows[i].Cells[4].Value),
                                        dgvPro.Rows[i].Cells[3].Value.ToString(),
-                                       Convert.ToInt32(dgvPro.Rows[i].Cells[6].Value),
+                                       Convert.ToDouble(dgvPro.Rows[i].Cells[6].Value),
                                        dgvPro.Rows[i].Cells[5].Value.ToString(),
                                        dgvPro.Rows[i].Cells[7].Value.ToString());
-
-
-
-
             }
-
+            string invt = ORD.inv_ty().Rows[0][0].ToString();
+            //   label25.Text = invt;
             this.Cursor = Cursors.WaitCursor;
             int order_id = Convert.ToInt32(TXTOID.Text);
-            RPT.order_InvoA4 rpt = new RPT.order_InvoA4();
-            rpt.Refresh();
-            rpt.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
-            rpt.DataSourceConnections[0].IntegratedSecurity = false;
-            RPT.FRM_RPT_PRODUCT frm = new RPT.FRM_RPT_PRODUCT();
-            rpt.SetParameterValue("@ID_ORDER", order_id);
-            frm.CR1.ReportSource = rpt;
-            rpt.PrintOptions.PrinterName = Properties.Settings.Default.PrinterR;
-            rpt.PrintToPrinter(1, false, 0, 0);
-            this.Cursor = Cursors.Default;
-            MessageBox.Show("       Order "+ TXTOID.Text +" Save      ", "Orders", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            /* MessageBox.Show("Print" + order_id + "order");
+             RPT.Rpt_Order_print rptort = new RPT.Rpt_Order_print();
+             RPT.FRM_Report frm = new RPT.FRM_Report();
+             rptort.SetDataSource(ORD.get_order_details(order_id));
+             frm.crystalReportViewer1.ReportSource = rptort;
+             frm.ShowDialog();*/
+            if (invt == "1")
+            {
+                RPT.Rpt_ord_invo rpt = new RPT.Rpt_ord_invo();
+                rpt.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
+                rpt.DataSourceConnections[0].IntegratedSecurity = false;
+                RPT.FRM_RPT_PRODUCT frm = new RPT.FRM_RPT_PRODUCT();
+                // rpt.SetDataSource(ORD.get_order_details(order_id));
+                //            rpt.SetParameterValue(order_id);
+                rpt.SetParameterValue("@ID_ORDER", order_id);
+                frm.CR1.ReportSource = rpt;
+                for (int k = 0; k < Program.RC; k++)
+                {
+                    rpt.PrintOptions.PrinterName = Properties.Settings.Default.PrinterR;
+                    rpt.PrintToPrinter(1, false, 0, 0);
+                } 
+                this.Cursor = Cursors.Default;
+            }
+            else if (invt == "0")
+            {
+                RPT.s_order rpt = new RPT.s_order();
+                rpt.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
+                rpt.DataSourceConnections[0].IntegratedSecurity = false;
+                RPT.FRM_RPT_PRODUCT frm = new RPT.FRM_RPT_PRODUCT();
+                // rpt.SetDataSource(ORD.get_order_details(order_id));
+                //            rpt.SetParameterValue(order_id);
+                rpt.SetParameterValue("@ID_ORDER", order_id);
+                frm.CR1.ReportSource = rpt;
+                for (int k = 0; k < Program.RC; k++)
+                {
+                    rpt.PrintOptions.PrinterName = Properties.Settings.Default.PrinterR;
+                    rpt.PrintToPrinter(1, false, 0, 0);
+                } 
+                this.Cursor = Cursors.Default;
+            }
+            else if (invt == "2")
+            {
+                RPT.ins_orderPR rpt = new RPT.ins_orderPR();
+                rpt.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
+                rpt.DataSourceConnections[0].IntegratedSecurity = false;
+                RPT.FRM_RPT_PRODUCT frm = new RPT.FRM_RPT_PRODUCT();
+                // rpt.SetDataSource(ORD.get_order_details(order_id));
+                //            rpt.SetParameterValue(order_id);
+                rpt.SetParameterValue("@ID_ORDER", order_id);
+                frm.CR1.ReportSource = rpt;
+                for (int k = 0; k < Program.RC; k++)
+                {
+                    rpt.PrintOptions.PrinterName = Properties.Settings.Default.PrinterR;
+                    rpt.PrintToPrinter(1, false, 0, 0);
+                } 
+                this.Cursor = Cursors.Default;
+            }
+            //255
+            //qrcoceq();
+
+            Image V_qr;
+            BL.ZatcaQrCodeGenerator zk2 = new BL.ZatcaQrCodeGenerator();
+            string barc = "";
+            decimal AMT = Convert.ToDecimal(TXTAMOS.Text);
+            barc = zk2.GenerateQrCodeBase64(Program.location, Program.TAX_ID, DateTime.Now, AMT, Convert.ToDecimal(0.15 * Convert.ToDouble(AMT)),TXTOID.Text);
+
+
+            string data = barc;
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
+            V_qr = qrCodeImage;
+
+            MemoryStream ms = new MemoryStream();
+            V_qr.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            byte[] byteImage = ms.ToArray();
+
+            ORD.py_qr(Convert.ToInt32(TXTOID.Text), byteImage);
+
+            MessageBox.Show("تم الحفظ بالرقم " + TXTOID.Text + "  ", "حفظ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             clear_data();
-
-
         }
 
         private void txtID_Validated(object sender, EventArgs e)
         {
-          
+
 
         }
 
@@ -505,7 +780,7 @@ namespace POS.PL
 
         private void txtID_KeyDown(object sender, KeyEventArgs e)
         {
-           
+
             if (e.KeyCode == Keys.Enter)
             {
                 if (txtID.Text == "")
@@ -553,12 +828,12 @@ namespace POS.PL
 
         private void dgvPro_RowErrorTextChanged(object sender, DataGridViewRowEventArgs e)
         {
-           
+
         }
 
         private void dgvPro_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            
+
 
 
         }
@@ -581,6 +856,12 @@ namespace POS.PL
         private void TXTAMOS_TextChanged(object sender, EventArgs e)
         {
             txtamm2.Text = TXTAMOS.Text;
+            txtdep.Text = (Convert.ToDouble(txtamm2.Text) - Convert.ToDouble(txtpay.Text)).ToString();
+            txtpay.Text = txtamm2.Text;
+            qrcoceq();
+
+
+
         }
 
         private void txtdescount_Validated(object sender, EventArgs e)
@@ -623,12 +904,198 @@ namespace POS.PL
             {
                 dgvPro.CurrentRow.Cells[3].Value = temp.ToString();
                 e.Cancel = true;
-                
+
                 errorProvider1.SetError(edit, "Numeric value required");
                 errorProvider1.SetIconAlignment(edit, ErrorIconAlignment.MiddleLeft);
-               
+
                 errorProvider1.SetIconPadding(edit, -75); // icon displays on left side of cell 
             }
+        }
+
+        private void txtpay_TextChanged(object sender, EventArgs e)
+        {
+            if (txtpay.Text == "")
+            { txtpay.Text = "0";
+                return;
+            }
+            txtdep.Text = (Convert.ToDouble(TXTAMOS.Text) - Convert.ToDouble(txtpay.Text)).ToString();
+
+        }
+
+        private void txtdep_TextChanged(object sender, EventArgs e)
+        {
+            c_total.Text = txtdep.Text;
+        }
+
+        private void txtprice_ImeModeChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtprice_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtqut.Focus();
+            }
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            qrcoceq();
+            Bar_codeG();
+
+            if (TXTOID.Text == string.Empty || txtCID.Text == string.Empty || dgvPro.Rows.Count < 2 || TXToTY.Text == string.Empty || comboBox1.Text == "")
+            {
+                MessageBox.Show("Fill All Information", "Save", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            DataTable vcs = new DataTable();
+            vcs = cus.v_cus(Convert.ToInt32(txtCID.Text));
+            if (vcs.Rows.Count < 1)
+            {
+                MessageBox.Show("       Customer Not Found     ", "Save", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            if (TXToEMP.Text == string.Empty)
+            {
+                MessageBox.Show("You are not  login", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                PL.Frm_login log = new Frm_login();
+                this.Close();
+                log.ShowDialog();
+                return;
+            }
+         //   this.TXTOID.Text = ORD.get_l_o_id().Rows[0][0].ToString();
+
+            if (Convert.ToInt32(comboBox1.SelectedValue) == 3|| Convert.ToInt32(comboBox1.SelectedValue) == 33)
+            {
+                ORD.add_chaque(TXTCFNAME.Text, Convert.ToDateTime(date22.Text), Convert.ToDouble(c_total.Text), Convert.ToInt32(txtCID.Text), Convert.ToInt32(TXTOID.Text), Convert.ToInt32(comboBox1.SelectedValue));
+            }
+            else
+            {
+                groupBox5.Visible = false;
+                
+            }
+           // Image img = ORD.qrCode(TXTOID.Text + "_" + TXTAMOS.Text, TXTOID.Text);
+            ORD.ADD_ORDER(Convert.ToInt32(TXTOID.Text), DateTime.Now, Convert.ToInt32(txtCID.Text), TXToTY.Text, TXToEMP.Text, txtamm2.Text, txtuid.Text, Program.IPA, Program.PC, TXTCFNAME.Text, Convert.ToDouble(txtdep.Text), Convert.ToDouble(txtpay.Text), Convert.ToInt32(comboBox1.SelectedValue), 1, "Cash", "Name", 0, 0);
+
+
+            //QR Save
+            qrcoceq();
+
+            QR_BOX.Image.Save(Properties.Settings.Default.qr_path, System.Drawing.Imaging.ImageFormat.Png);
+            pictureBox1.ImageLocation = Properties.Settings.Default.qr_path;
+
+            MemoryStream ms = new MemoryStream();
+            pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
+            byte[] byteImage = ms.ToArray();
+            ORD.save_QR(Convert.ToInt32(TXTOID.Text), byteImage);
+            //Bar Code Save
+            Bar_codeG();
+            barcodeb.Image.Save(Properties.Settings.Default.BR_path);
+            pbox22.ImageLocation = Properties.Settings.Default.BR_path;
+            MemoryStream ms2 = new MemoryStream();
+            pbox22.Image.Save(ms2, pbox22.Image.RawFormat);
+            byte[] btimg = ms2.ToArray();
+            ORD.save_Bar(Convert.ToInt32(TXTOID.Text), btimg);
+
+
+            ORD.add_cash_histoty(Program.UID, Convert.ToDouble(txtpay.Text), 0, Convert.ToInt32(comboBox1.SelectedValue), "فاتورة مبيعات", TXTCFNAME.Text + ' ' + txtCLAST.Text, Convert.ToInt32(TXTOID.Text), DateTime.Now,1, Convert.ToInt32(txtCID.Text));
+            cus.add_dept(Convert.ToInt32(txtCID.Text), Convert.ToDouble(txtdep.Text));
+
+
+            for (int i = 0; i < dgvPro.Rows.Count - 1; i++)
+            {
+                ORD.ADD_ORDER_DETAILS(dgvPro.Rows[i].Cells[1].Value.ToString(),
+                                       Convert.ToInt32(TXTOID.Text),
+                                      Convert.ToDouble(dgvPro.Rows[i].Cells[4].Value),
+                                       dgvPro.Rows[i].Cells[3].Value.ToString(),
+                                       Convert.ToDouble(dgvPro.Rows[i].Cells[6].Value),
+                                       dgvPro.Rows[i].Cells[5].Value.ToString(),
+                                       dgvPro.Rows[i].Cells[7].Value.ToString());
+
+
+
+
+            }
+
+            this.Cursor = Cursors.WaitCursor;
+            int order_id = Convert.ToInt32(TXTOID.Text);
+            RPT.order_InvoA4P rpt = new RPT.order_InvoA4P();
+            rpt.Refresh();
+            rpt.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
+            rpt.DataSourceConnections[0].IntegratedSecurity = false;
+            RPT.FRM_RPT_PRODUCT frm = new RPT.FRM_RPT_PRODUCT();
+            rpt.SetParameterValue("@ID_ORDER", order_id);
+            frm.CR1.ReportSource = rpt;
+            try
+            {
+                for (int k = 0; k < Program.IC; k++)
+                {
+                    rpt.PrintOptions.PrinterName = Properties.Settings.Default.PrinterR;
+                    rpt.PrintToPrinter(Program.IC, false, 0, 0);
+                }
+            }
+            catch
+            {
+                for (int k = 0; k < Program.IC; k++)
+                {
+                    rpt.PrintToPrinter(1, false, 0, 0);
+                }
+            }
+            this.Cursor = Cursors.Default;
+            MessageBox.Show("تم الحفظ بالرقم " + TXTOID.Text + "  ", "حفظ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            clear_data();
+        }
+
+        private void txtqut_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != 8 && e.KeyChar != Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(comboBox1.SelectedValue) == 3 || Convert.ToInt32(comboBox1.SelectedValue) == 33)
+            {
+                groupBox5.Visible = true;
+            }
+            else
+            {
+                groupBox5.Visible = false;
+            }
+        }
+
+        private void TXTOID_TextChanged(object sender, EventArgs e)
+        {
+            qrcoceq();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Image V_qr;
+            BL.ZatcaQrCodeGenerator zk2 = new BL.ZatcaQrCodeGenerator();
+            string barc = "";
+            decimal AMT = Convert.ToDecimal(TXTAMOS.Text);
+            barc = zk2.GenerateQrCodeBase64(Program.location, Program.TAX_ID, DateTime.Now, AMT, Convert.ToDecimal(0.15 * Convert.ToDouble(AMT)),TXTOID.Text);
+
+
+            string data = barc;
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
+            V_qr = qrCodeImage;
+
+            MemoryStream ms = new MemoryStream();
+            V_qr.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            byte[] byteImage = ms.ToArray();
+
+            ORD.py_qr(2025000510, byteImage);
         }
     }
 }

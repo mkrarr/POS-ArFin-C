@@ -38,6 +38,19 @@ namespace POS.PL
         private void timer1_Tick_2(object sender, EventArgs e)
         {
             prg2.Increment(1);
+            if (prg2.Value == 26)
+            {
+                label4.Text = "تاكيد اتصال الخادم";
+            }
+            else if (prg2.Value == 51)
+            {
+                label4.Text = "تاكيد اتصال قاعدة البيانات";
+            }
+            else if (prg2.Value == 76)
+            {
+                label4.Text = "تاكيد توافق النسخة مع قاعدة البيانات";
+            }else
+
             if (prg2.Value == 100)
             {
                 timer1.Stop();
@@ -48,8 +61,8 @@ namespace POS.PL
                 PL.Frm_login log = new Frm_login();
                 if (Program.UID == "")
                 {
-                    log.Refresh();
-                    this.Close();
+                   // log.Refresh();
+                    this.Hide();
                     log.ShowDialog();
                     
 
@@ -70,6 +83,9 @@ namespace POS.PL
 
         private void SS_Load(object sender, EventArgs e)
         {
+            Ver.Text =  "V. "+Program.APP_Ver;
+            //FRM_MAIN.getMainForm.ShowInTaskbar = true;
+            //FRM_MAIN.getMainForm.ShowIcon = true;
 
         }
     }

@@ -17,7 +17,7 @@ namespace POS.PL
         public FRM_PRO_LIST()
         {
             InitializeComponent();
-            this.dataGridView1.DataSource = prd.GET_ALL_PRODUCTS();
+            this.dataGridView1.DataSource = prd.SearchProduct("");
         }
 
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
@@ -46,6 +46,25 @@ namespace POS.PL
         private void dataGridView1_KeyPress(object sender, KeyPressEventArgs e)
         {
 
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            try {
+                this.dataGridView1.DataSource = prd.SearchProduct(textBox1.Text);
+            }
+            catch
+            {
+                return;
+            }
+            }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.Close();
+            }
         }
     }
 }

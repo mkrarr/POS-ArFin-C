@@ -38,9 +38,13 @@ namespace POS.PL
             txtemail.Text = null;
             txtPh.Text = null;
             pbox.Image = POS.Properties.Resources.ID2;
-            btnsave.Enabled = true;
+         //   btnsave.Enabled = true;
             btnadd.Enabled = false;
             txtf_name.Focus();
+            Add_CUS cs = new Add_CUS();
+            cs.fcase = "add";
+            cs.cid = 0;
+            cs.ShowDialog();
         }
 
         private void pbox_Click(object sender, EventArgs e)
@@ -60,10 +64,10 @@ namespace POS.PL
                 MemoryStream ms = new MemoryStream();
                 pbox.Image.Save(ms, pbox.Image.RawFormat);
                 byte[] pic = ms.ToArray();
-                cust.ADD_CUSTOMER(txtf_name.Text, txtL_name.Text, txtPh.Text, txtemail.Text, pic);
+              //  cust.ADD_CUSTOMER(txtf_name.Text, txtL_name.Text, txtPh.Text, txtemail.Text, pic);
                 MessageBox.Show("Add Done", "Add", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.dataGridView1.DataSource = cust.GET_ALL_CUST();
-                btnsave.Enabled = false;
+              //  btnsave.Enabled = false;
                 btnadd.Enabled = true;
 
 
@@ -108,7 +112,7 @@ namespace POS.PL
         {
             if (e.KeyCode == Keys.Enter)
             {
-                btnsave.Focus();
+                //btnsave.Focus();
 
             }
         }
@@ -163,7 +167,11 @@ namespace POS.PL
                 MemoryStream ms = new MemoryStream();
                 pbox.Image.Save(ms, pbox.Image.RawFormat);
                 byte[] pic = ms.ToArray();
-                cust.EDIT_CUSTOMER(txtf_name.Text, txtL_name.Text, txtPh.Text, txtemail.Text, pic,ID);
+                Add_CUS cu = new Add_CUS();
+                cu.cid=Convert.ToInt32(this.txtref.Text);
+                cu.fcase = "updt";
+                cu.ShowDialog();
+             //   cust.EDIT_CUSTOMER(txtf_name.Text, txtL_name.Text, txtPh.Text, txtemail.Text, pic,ID);
                 MessageBox.Show("Update Done", "Add", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.dataGridView1.DataSource = cust.GET_ALL_CUST();
 
@@ -224,7 +232,7 @@ namespace POS.PL
         {
             if (txtref.Text==string.Empty)
             {
-                MessageBox.Show("       Select Customer Please      ","Erorr", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                MessageBox.Show("       Select Customer Please      ","Erorr", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;
             }
             else
@@ -241,6 +249,16 @@ namespace POS.PL
                     rpt.SetParameterValue("@ID_CUS", Cust_id);
                     frm.CR1.ReportSource = rpt;
                     frm.ShowDialog();
+                    this.Cursor = Cursors.Default;
+
+                    RPT.cus_cash rpt2 = new RPT.cus_cash();
+                    rpt2.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
+                    rpt2.DataSourceConnections[0].IntegratedSecurity = false;
+                    RPT.FRM_RPT_PRODUCT frm2 = new RPT.FRM_RPT_PRODUCT();
+                    rpt2.Refresh();
+                    rpt2.SetParameterValue("@id", Cust_id);
+                    frm2.CR1.ReportSource = rpt2;
+                    frm2.ShowDialog();
                     this.Cursor = Cursors.Default;
                 }
 
@@ -278,7 +296,7 @@ namespace POS.PL
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (dataGridView2.Rows.Count < 2)
+            if (dataGridView2.Rows.Count < 1)
             {
                 MessageBox.Show("       Select Order Please         ", "Erorr", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -287,15 +305,16 @@ namespace POS.PL
             {
                 this.Cursor = Cursors.WaitCursor;
                 int order_id = Convert.ToInt32(dataGridView2.CurrentRow.Cells[0].Value);
-                RPT.order_InvoA4 rpt = new RPT.order_InvoA4();
+                RPT.order_InvoA4P rpt = new RPT.order_InvoA4P();
                 rpt.Refresh();
                 rpt.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
                 rpt.DataSourceConnections[0].IntegratedSecurity = false;
                 RPT.FRM_RPT_PRODUCT frm = new RPT.FRM_RPT_PRODUCT();
                 rpt.SetParameterValue("@ID_ORDER", order_id);
                 frm.CR1.ReportSource = rpt;
-                rpt.PrintOptions.PrinterName = Properties.Settings.Default.PrinterR;
-                rpt.PrintToPrinter(1, false, 0, 0);
+                //  rpt.PrintOptions.PrinterName = Properties.Settings.Default.PrinterRPT;
+                //  rpt.PrintToPrinter(1, false, 0, 0);
+                frm.Show();
                 this.Cursor = Cursors.Default;
             }
         }
@@ -312,14 +331,52 @@ namespace POS.PL
                 this.dataGridView1.DataSource = cust.GET_ALL_CUST();
                 dataGridView1.Columns[0].Visible = false;
                 dataGridView1.Columns[5].Visible = false;
-                button5.Text = "      Delete";
+                button5.Text = "      حذف";
             }
             else if(checkBox1.Checked == true)
             {
                 this.dataGridView1.DataSource = cust.GET_ALL_CUST2();
                 dataGridView1.Columns[0].Visible = false;
                 dataGridView1.Columns[5].Visible = false;
-                button5.Text = "      Reset";
+                button5.Text = "      أسترجاع";
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (txtref.Text=="")
+            {
+                MessageBox.Show("       Select Customer Please         ", "Erorr", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            else
+            {
+                this.Cursor = Cursors.WaitCursor;
+                int order_id = Convert.ToInt32(txtref.Text);
+                RPT.c_debt rpt = new RPT.c_debt();
+                rpt.Refresh();
+                rpt.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
+                rpt.DataSourceConnections[0].IntegratedSecurity = false;
+                RPT.FRM_RPT_PRODUCT frm = new RPT.FRM_RPT_PRODUCT();
+                rpt.SetParameterValue("@c_id", order_id);
+                frm.CR1.ReportSource = rpt;
+                // rpt.PrintOptions.PrinterName = Properties.Settings.Default.PrinterRPT;
+                // rpt.PrintToPrinter(1, false, 0, 0);
+                frm.Show();
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (txtref.Text == "")
+            { return; }
+            else
+            {
+                Debt df = new Debt();
+                df.textBox3.Text = txtref.Text;
+                df.textBox2.Text = txtf_name.Text + " " + txtL_name.Text;
+                df.ShowDialog();
             }
         }
     }

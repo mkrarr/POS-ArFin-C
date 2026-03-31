@@ -65,12 +65,13 @@
             this.groupBox1.Controls.Add(this.txtID);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.dataGridView1);
+            this.groupBox1.Font = new System.Drawing.Font("Cairo", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(700, 371);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Categories";
+            this.groupBox1.Text = "التصنيفات";
             // 
             // button9
             // 
@@ -133,36 +134,38 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label2.Location = new System.Drawing.Point(2, 149);
+            this.label2.Font = new System.Drawing.Font("Cairo", 9.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(244, 152);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 16);
+            this.label2.Size = new System.Drawing.Size(44, 24);
             this.label2.TabIndex = 5;
             this.label2.Text = "Name";
             // 
             // txtDes
             // 
-            this.txtDes.Location = new System.Drawing.Point(51, 148);
+            this.txtDes.Font = new System.Drawing.Font("Cairo", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDes.Location = new System.Drawing.Point(18, 150);
             this.txtDes.Name = "txtDes";
-            this.txtDes.Size = new System.Drawing.Size(220, 20);
+            this.txtDes.Size = new System.Drawing.Size(220, 28);
             this.txtDes.TabIndex = 1;
             this.txtDes.TextChanged += new System.EventHandler(this.txtDes_TextChanged);
             // 
             // txtID
             // 
-            this.txtID.Location = new System.Drawing.Point(52, 123);
+            this.txtID.Font = new System.Drawing.Font("Cairo", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtID.Location = new System.Drawing.Point(112, 118);
             this.txtID.Name = "txtID";
             this.txtID.ReadOnly = true;
-            this.txtID.Size = new System.Drawing.Size(126, 20);
+            this.txtID.Size = new System.Drawing.Size(126, 28);
             this.txtID.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label1.Location = new System.Drawing.Point(2, 123);
+            this.label1.Font = new System.Drawing.Font("Cairo", 9.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(254, 120);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(22, 16);
+            this.label1.Size = new System.Drawing.Size(22, 24);
             this.label1.TabIndex = 4;
             this.label1.Text = "ID";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -188,22 +191,24 @@
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.button6);
             this.groupBox2.Controls.Add(this.button5);
+            this.groupBox2.Font = new System.Drawing.Font("Cairo", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(714, 12);
             this.groupBox2.Name = "groupBox2";
+            this.groupBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.groupBox2.Size = new System.Drawing.Size(168, 371);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Process";
+            this.groupBox2.Text = "العمليات";
             // 
             // button11
             // 
-            this.button11.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button11.Font = new System.Drawing.Font("Cairo", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button11.Image = global::POS.Properties.Resources.edit;
             this.button11.Location = new System.Drawing.Point(6, 166);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(156, 43);
             this.button11.TabIndex = 7;
-            this.button11.Text = "      Edit";
+            this.button11.Text = "تعديل";
             this.button11.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button11.UseVisualStyleBackColor = true;
             this.button11.Click += new System.EventHandler(this.button11_Click);
@@ -211,78 +216,78 @@
             // btnsave
             // 
             this.btnsave.Enabled = false;
-            this.btnsave.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnsave.Font = new System.Drawing.Font("Cairo", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnsave.Image = global::POS.Properties.Resources.ok1;
             this.btnsave.Location = new System.Drawing.Point(6, 68);
             this.btnsave.Name = "btnsave";
             this.btnsave.Size = new System.Drawing.Size(156, 43);
             this.btnsave.TabIndex = 6;
-            this.btnsave.Text = "      Save";
+            this.btnsave.Text = "حفظ";
             this.btnsave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnsave.UseVisualStyleBackColor = true;
             this.btnsave.Click += new System.EventHandler(this.btnsave_Click);
             // 
             // button3
             // 
-            this.button3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Font = new System.Drawing.Font("Cairo", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button3.Image = global::POS.Properties.Resources.pr1;
             this.button3.Location = new System.Drawing.Point(6, 264);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(156, 43);
             this.button3.TabIndex = 2;
-            this.button3.Text = "   Product in  CAT";
+            this.button3.Text = "طباعة المنتجات";
             this.button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // btnadd
             // 
-            this.btnadd.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnadd.Font = new System.Drawing.Font("Cairo", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnadd.Image = global::POS.Properties.Resources.Add;
             this.btnadd.Location = new System.Drawing.Point(6, 19);
             this.btnadd.Name = "btnadd";
             this.btnadd.Size = new System.Drawing.Size(156, 43);
             this.btnadd.TabIndex = 5;
-            this.btnadd.Text = "         Add";
+            this.btnadd.Text = "أضافة";
             this.btnadd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnadd.UseVisualStyleBackColor = true;
             this.btnadd.Click += new System.EventHandler(this.button4_Click);
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Font = new System.Drawing.Font("Cairo", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Image = global::POS.Properties.Resources.no;
             this.button1.Location = new System.Drawing.Point(6, 313);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(156, 43);
             this.button1.TabIndex = 0;
-            this.button1.Text = "     Exit";
+            this.button1.Text = "خروج";
             this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button6
             // 
-            this.button6.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.Font = new System.Drawing.Font("Cairo", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button6.Image = global::POS.Properties.Resources.pr;
             this.button6.Location = new System.Drawing.Point(6, 215);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(156, 43);
             this.button6.TabIndex = 3;
-            this.button6.Text = "   Print All";
+            this.button6.Text = "طباعة الكل";
             this.button6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button5
             // 
-            this.button5.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button5.Font = new System.Drawing.Font("Cairo", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button5.Image = global::POS.Properties.Resources.del;
             this.button5.Location = new System.Drawing.Point(6, 117);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(156, 43);
             this.button5.TabIndex = 4;
-            this.button5.Text = "      Delete";
+            this.button5.Text = "حذف";
             this.button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
@@ -298,7 +303,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FRM_CATEGORIES";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Categories";
+            this.Text = "أدارة التصنيفات";
             this.Load += new System.EventHandler(this.FRM_CATEGORIES_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

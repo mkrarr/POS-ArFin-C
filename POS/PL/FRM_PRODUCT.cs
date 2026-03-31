@@ -59,24 +59,51 @@ namespace POS.PL
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
-            dt = prd.SearchProduct(textBox1.Text);
-            this.dataGridView1.DataSource = dt;
-           
+            if (checkBox1.Checked == false)
+            {
+                DataTable dt = new DataTable();
+                dt = prd.SearchProduct(textBox1.Text);
+                this.dataGridView1.DataSource = dt;
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+                dt = prd.SearchProduct2(textBox1.Text);
+                this.dataGridView1.DataSource = dt;
+            }
 
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(MessageBox.Show("Delete Product","Delete",MessageBoxButtons.YesNo,MessageBoxIcon.Exclamation)==DialogResult.Yes)
+            if (checkBox1.Checked == false)
             {
-                prd.DeleteProduct(this.dataGridView1.CurrentRow.Cells[0].Value.ToString());
-                MessageBox.Show("Delete Product Done","Delete",MessageBoxButtons.OK,MessageBoxIcon.Information);
-                this.dataGridView1.DataSource = prd.GET_ALL_PRODUCTS();
+                if (MessageBox.Show("هل انت متاكد من المنيح [" + dataGridView1.CurrentRow.Cells[1].Value.ToString() + "]", " حزف ", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                {
+                    prd.DeleteProduct(this.dataGridView1.CurrentRow.Cells[0].Value.ToString());
+                    MessageBox.Show("تم الحزف", "حزف", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.dataGridView1.DataSource = prd.GET_ALL_PRODUCTS();
 
+                }
+                else
+                {
+                    MessageBox.Show("تم الغاء العملية", "الغاء", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-            else{
-                MessageBox.Show("Delete Product Stop", "Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+            {
+
+                if (MessageBox.Show("هل انت متاكد من المنيح [" + dataGridView1.CurrentRow.Cells[1].Value.ToString() + "]", " إسترجاع ", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                {
+                    prd.DeleteProduct2(this.dataGridView1.CurrentRow.Cells[0].Value.ToString());
+                    MessageBox.Show("تم الاسترجاع", "إسترجاع", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.dataGridView1.DataSource = prd.GET_ALL_PRODUCTS2();
+
+                }
+                else
+                {
+                    MessageBox.Show("تم الغاء العملية", "الغاء", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
 
@@ -85,12 +112,12 @@ namespace POS.PL
             FRM_ADD_PRODECT FRM = new FRM_ADD_PRODECT();
             FRM.txtref.Text = this.dataGridView1.CurrentRow.Cells[0].Value.ToString();
             FRM.txtdes.Text = this.dataGridView1.CurrentRow.Cells[1].Value.ToString();
-            FRM.txtqte.Text = this.dataGridView1.CurrentRow.Cells[2].Value.ToString();
-            FRM.txtprice.Text = this.dataGridView1.CurrentRow.Cells[3].Value.ToString();
+            FRM.txtmname.Text = this.dataGridView1.CurrentRow.Cells[2].Value.ToString();
+            FRM.pro_ty.Text = this.dataGridView1.CurrentRow.Cells[3].Value.ToString();
             FRM.txtbprice.Text = this.dataGridView1.CurrentRow.Cells[4].Value.ToString();
             FRM.cmdcategories.Text = this.dataGridView1.CurrentRow.Cells[5].Value.ToString();
             FRM.Text = "Update Product: " + this.dataGridView1.CurrentRow.Cells[1].Value.ToString();
-            FRM.btnok.Text = "Update";
+            FRM.btnok.Text = "تعديل";
             FRM.state = "update";
             FRM.txtref.ReadOnly = true;
             FRM.txtqte.ReadOnly = true;
@@ -105,6 +132,18 @@ namespace POS.PL
             {
                 FRM.ShowDialog();
                 return;
+            }
+            if (checkBox1.Checked == false)
+            {
+                DataTable dt = new DataTable();
+                dt = prd.SearchProduct(textBox1.Text);
+                this.dataGridView1.DataSource = dt;
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+                dt = prd.SearchProduct2(textBox1.Text);
+                this.dataGridView1.DataSource = dt;
             }
         }
 
@@ -183,13 +222,37 @@ namespace POS.PL
 
         private void button9_Click(object sender, EventArgs e)
         {
-            PL.FRM_Stock STO = new FRM_Stock();
-            STO.txtref.Text = this.dataGridView1.CurrentRow.Cells[0].Value.ToString();
-            STO.txtname.Text=this.dataGridView1.CurrentRow.Cells[1].Value.ToString();
-            STO.txtstock.Text = this.dataGridView1.CurrentRow.Cells[2].Value.ToString();
+            Pro_details pls = new Pro_details();
+            pls.label1.Text = this.dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            pls.label2.Text = this.dataGridView1.CurrentRow.Cells[1].Value.ToString();
+            pls.ShowDialog();
+            if (checkBox1.Checked == false)
+            {
+                DataTable dt = new DataTable();
+                dt = prd.SearchProduct(textBox1.Text);
+                this.dataGridView1.DataSource = dt;
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+                dt = prd.SearchProduct2(textBox1.Text);
+                this.dataGridView1.DataSource = dt;
+            }
 
-            STO.ShowDialog();
+        }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == false)
+            {
+                this.dataGridView1.DataSource = prd.GET_ALL_PRODUCTS();
+                button2.Text = "حزف";
+            }
+            else
+            {
+                this.dataGridView1.DataSource = prd.GET_ALL_PRODUCTS2();
+                button2.Text = "إسترجاع";
+            }
         }
     }
 }

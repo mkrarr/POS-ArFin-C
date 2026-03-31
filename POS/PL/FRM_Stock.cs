@@ -25,8 +25,7 @@ namespace POS.PL
             int nstock = Convert.ToInt32(txtnsto.Text);
             int AStock = Convert.ToInt32(txtstock.Text);
             int ADQUT = nstock + AStock;
-
-          pro.UPDATE_Stock(txtref.Text, ADQUT);
+     //     pro.UPDATE_Stock(txtref.Text, ADQUT);
           FRM_PRODUCTS FRM = new FRM_PRODUCTS();
         //  FRM.dataGridView1.DataSource = pro.GET_ALL_PRODUCTS();
           FRM_PRODUCTS.getMainForm.dataGridView1.DataSource = pro.GET_ALL_PRODUCTS();

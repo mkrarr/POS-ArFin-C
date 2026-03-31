@@ -48,5 +48,27 @@ namespace POS.PL
            this.dgvCL.Columns[0].Visible = false;
            this.dgvCL.Columns[5].Visible = false;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Add_CUS cus = new Add_CUS();
+            cus.ShowDialog();
+        }
+
+        private void dgvCL_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Space)
+            { 
+                this.Close();
+            }
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.Close();
+            }
+        }
     }
 }

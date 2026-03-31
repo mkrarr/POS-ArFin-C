@@ -27,7 +27,6 @@ namespace POS.PL
 
         private void btnsave_Click(object sender, EventArgs e)
         {
-
             BL.CLS_LOGIN cls = new BL.CLS_LOGIN();
             if (txtadd.Text == string.Empty || txtname.Text == string.Empty || txtph1.Text == string.Empty)
             {
@@ -40,8 +39,14 @@ namespace POS.PL
                 pbox.Image.Save(ms, pbox.Image.RawFormat);
                 byte[] byteImage = ms.ToArray();
 
-                cls.ADD_Company(txtname.Text, txtadd.Text, txtph1.Text, txtph2.Text, txtemail.Text, txtmes.Text, byteImage);
+                cls.ADD_Company(txtname.Text, txtadd.Text, txtph1.Text, txtph2.Text, txtemail.Text, txtmes.Text, byteImage,txtflag.Text,txtPmsg.Text,zka.Text,tax.Text);
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    cls.up_options(Convert.ToInt32(dataGridView1.Rows[i].Cells[0].Value), dataGridView1.Rows[i].Cells[3].Value.ToString(), dataGridView1.Rows[i].Cells[4].Value.ToString(), dataGridView1.Rows[i].Cells[5].Value.ToString());
+                }
                 MessageBox.Show(" Company Info Save", "Company", MessageBoxButtons.OK, MessageBoxIcon.Question);
+
+                this.Close();
             }
         }
 
@@ -56,6 +61,29 @@ namespace POS.PL
             txtph2.Text = Convert.ToString(dt.Rows[0][3]);
             txtemail.Text = Convert.ToString(dt.Rows[0][4]);
             txtmes.Text = Convert.ToString(dt.Rows[0][5]);
+            txtPmsg.Text = Convert.ToString(dt.Rows[0][8]);
+            txtflag.Text = Convert.ToString(dt.Rows[0][9]);
+            tax.Text = Convert.ToString(dt.Rows[0][11]);
+            zka.Text = Convert.ToString(dt.Rows[0][10]);
+            dataGridView1.DataSource = log.Options_prc();
+            dataGridView1.Columns[0].Visible = false;
+            dataGridView1.Columns[1].Visible = false;
+            dataGridView1.Columns[2].ReadOnly = true;
+
+           
+
+          //  dataGridView1.Columns[3].ReadOnly = true;
+            //   dataGridView1.Columns[5].ReadOnly = false;
+
+            try
+            {
+              
+
+                byte[] Cpic = (byte[])dt.Rows[0][7];
+                MemoryStream ms = new MemoryStream(Cpic);
+                pbox.Image = Image.FromStream(ms);
+            }
+            catch { return; }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -66,6 +94,22 @@ namespace POS.PL
             {
                 pbox.Image = Image.FromFile(ofd.FileName);
             }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            //this.Size = this.MaximumSize;
+            //button1.Location = new Point(571, 400);
+            //btnsave.Location = new Point(464, 400);
+            //dataGridView1.Visible = true;
+        }
+
+        private void pictureBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Size = this.MaximumSize;
+            button1.Location = new Point(571, 400);
+            btnsave.Location = new Point(464, 400);
+            dataGridView1.Visible = true;
         }
     }
 }

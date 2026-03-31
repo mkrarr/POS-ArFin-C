@@ -90,7 +90,7 @@ namespace POS.RPT {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_ID_ORDER {
+        public CrystalDecisions.Shared.IParameterField Parameter_oid {
             get {
                 return this.DataDefinition.ParameterFields[0];
             }

@@ -33,8 +33,8 @@ namespace POS.RPT
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            this.dataGridView1.DataSource = ord.Sel_OR_RE(Convert.ToDateTime(date2.Text));
-            dataGridView1.Columns[4].Visible = false;
+            this.dataGridView1.DataSource = ord.Sel_OR_RE(Convert.ToDateTime(date2.Text), Convert.ToDateTime(DATE1.Text));
+            dataGridView1.Columns[9].Visible = false;
             dataGridView1.Columns[5].Visible = false;
             dataGridView1.Columns[6].Visible = false;
             dataGridView1.Columns[7].Visible = false;
@@ -51,20 +51,19 @@ namespace POS.RPT
         private void button2_Click_1(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-
-            dat.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
-            dat.DataSourceConnections[0].IntegratedSecurity = false;
-
-            dat.SetParameterValue("@today", Convert.ToDateTime(date2.Text));
-
-
-
-
-
-
-            frm.CR1.ReportSource = dat;
+            int order_id = Convert.ToInt32(this.dataGridView1.CurrentRow.Cells[0].Value.ToString());
+            RPT.p_ref_invo rpt = new RPT.p_ref_invo();
+            rpt.Refresh();
+            rpt.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.password);
+            rpt.DataSourceConnections[0].IntegratedSecurity = false;
+            RPT.FRM_RPT_PRODUCT frm = new RPT.FRM_RPT_PRODUCT();
+            rpt.SetParameterValue("@ID_ORDER", order_id);
+            frm.CR1.ReportSource = rpt;
+            //rpt.PrintOptions.PrinterName = Properties.Settings.Default.PrinterRPT;
+            //rpt.PrintToPrinter(1, false, 0, 0);
             frm.ShowDialog();
             this.Cursor = Cursors.Default;
+        
         }
 
         private void button3_Click(object sender, EventArgs e)
