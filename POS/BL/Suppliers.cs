@@ -123,12 +123,46 @@ namespace POS.BL
             dt = DAL.SelectData("Get_L_P_O", null);
             return dt;
         }
-
-        public void ADD_P_ORDER(int ID_ORDER, DateTime DATE_ORDER, int CUSTOMER_ID, string DESCRIPTION_ORDER, string SelasMAN,string UID)
+        public void add_dept(int c_ID, double n_dept)
         {
             DAL.DataAccessLayer DAL = new DAL.DataAccessLayer();
             DAL.open();
-            SqlParameter[] parm = new SqlParameter[6];
+            SqlParameter[] parm = new SqlParameter[2];
+
+
+            parm[0] = new SqlParameter("@c_ID", SqlDbType.Int);
+            parm[0].Value = c_ID;
+
+            parm[1] = new SqlParameter("@n_dept", SqlDbType.Int);
+            parm[1].Value = n_dept;
+
+            DAL.ExecuteCommand("add_dept", parm);
+            DAL.close();
+        }
+
+        public void add_dept_s(int c_ID, double n_dept)
+        {
+            DAL.DataAccessLayer DAL = new DAL.DataAccessLayer();
+            DAL.open();
+            SqlParameter[] parm = new SqlParameter[2];
+
+
+            parm[0] = new SqlParameter("@c_ID", SqlDbType.Int);
+            parm[0].Value = c_ID;
+
+            parm[1] = new SqlParameter("@n_dept", SqlDbType.Float);
+            parm[1].Value = n_dept;
+
+            DAL.ExecuteCommand("add_dept_s", parm);
+            DAL.close();
+        }
+
+
+        public void ADD_P_ORDER(int ID_ORDER, DateTime DATE_ORDER, int CUSTOMER_ID, string DESCRIPTION_ORDER, string SelasMAN, string ORDER_TOTAL, string UID, string IPA, string PC, string c_name, double c_dept, double c_pay, int t_pay)
+        {
+            DAL.DataAccessLayer DAL = new DAL.DataAccessLayer();
+            DAL.open();
+            SqlParameter[] parm = new SqlParameter[13];
 
             parm[0] = new SqlParameter("@ID_ORDER", SqlDbType.Int);
             parm[0].Value = ID_ORDER;
@@ -145,20 +179,41 @@ namespace POS.BL
             parm[4] = new SqlParameter("@SelasMAN", SqlDbType.VarChar, 50);
             parm[4].Value = SelasMAN;
 
-            parm[5] = new SqlParameter("@u_id", SqlDbType.VarChar, 250);
-            parm[5].Value = UID;
+            parm[5] = new SqlParameter("@ORDER_TOTAL", SqlDbType.VarChar, 50);
+            parm[5].Value = ORDER_TOTAL;
 
+            parm[6] = new SqlParameter("@u_id", SqlDbType.VarChar, 250);
+            parm[6].Value = UID;
 
+            parm[7] = new SqlParameter("@IPA", SqlDbType.VarChar, 250);
+            parm[7].Value = IPA;
+
+            parm[8] = new SqlParameter("@pc", SqlDbType.VarChar, 250);
+            parm[8].Value = PC;
+
+            parm[9] = new SqlParameter("@c_name", SqlDbType.VarChar, 500);
+            parm[9].Value = c_name;
+
+            parm[10] = new SqlParameter("@c_dept", SqlDbType.Float);
+            parm[10].Value = c_dept;
+
+            parm[11] = new SqlParameter("@c_pay", SqlDbType.Float);
+            parm[11].Value = c_pay;
+
+            parm[12] = new SqlParameter("@t_pay", SqlDbType.Float);
+            parm[12].Value = t_pay;
+
+            //ORDER_TOTAL
 
             DAL.ExecuteCommand("ADD_P_ORDER", parm);
             DAL.close();
         }
 
-        public void ADD_P_ORDER_DETAILS(string ID_PRODUCT, int ID_ORDER, int QTE, string Price, float DISCOUNT, string AMOUNT, string TOTAL_AMOUNT)
+        public void ADD_P_ORDER_DETAILS(string ID_PRODUCT, int ID_ORDER, int QTE, string Price, double DISCOUNT, string AMOUNT, string TOTAL_AMOUNT,string Patch)
         {
             DAL.DataAccessLayer DAL = new DAL.DataAccessLayer();
             DAL.open();
-            SqlParameter[] parm = new SqlParameter[7];
+            SqlParameter[] parm = new SqlParameter[8];
 
             parm[0] = new SqlParameter("@ID_PRODUCT", SqlDbType.VarChar, 50);
             parm[0].Value = ID_PRODUCT;
@@ -181,7 +236,8 @@ namespace POS.BL
             parm[6] = new SqlParameter("@TOTAL_AMOUNT", SqlDbType.VarChar, 50);
             parm[6].Value = TOTAL_AMOUNT;
 
-
+            parm[7] = new SqlParameter("@Patch", SqlDbType.VarChar, 250);
+            parm[7].Value = Patch;
 
 
 
@@ -189,5 +245,44 @@ namespace POS.BL
             DAL.ExecuteCommand("ADD_P_ORDER_DETAILS", parm);
             DAL.close();
         }
+
+        public void add_nasryat(int id, string stats, double cash, string note,string u_id)
+        {
+            DAL.DataAccessLayer DAL = new DAL.DataAccessLayer();
+            DAL.open();
+            SqlParameter[] parm = new SqlParameter[5];
+
+            parm[0] = new SqlParameter("@id", SqlDbType.Int);
+            parm[0].Value = id;
+
+            parm[1] = new SqlParameter("@stats", SqlDbType.NVarChar, 50);
+            parm[1].Value = stats;
+
+            parm[2] = new SqlParameter("@cash", SqlDbType.Float);
+            parm[2].Value = cash;
+
+            parm[3] = new SqlParameter("@note", SqlDbType.NVarChar, 500);
+            parm[3].Value = note;
+
+            parm[4] = new SqlParameter("@u_id", SqlDbType.NVarChar, 500);
+            parm[4].Value = u_id;
+
+
+
+            DAL.ExecuteCommand("add_nasryat", parm);
+            DAL.close();
+        }
+
+        public DataTable get_l_N_id()
+        {
+            DAL.DataAccessLayer DAL = new DAL.DataAccessLayer();
+            SqlParameter[] parm = new SqlParameter[2];
+
+            DAL.open();
+            DataTable dt = new DataTable();
+            dt = DAL.SelectData("get_l_N_id", null);
+            return dt;
+        }
+
     }
 }

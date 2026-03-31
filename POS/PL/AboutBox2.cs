@@ -19,7 +19,7 @@ namespace POS.PL
            // this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
             this.labelCopyright.Text = AssemblyCopyright;
            // this.labelCompanyName.Text = AssemblyCompany;
-      //    this.textBoxDescription.Text = AssemblyDescription;
+      //this.textBoxDescription.Text = AssemblyDescription;
         }
 
         #region Assembly Attribute Accessors
@@ -104,7 +104,8 @@ namespace POS.PL
 
         private void AboutBox2_Load(object sender, EventArgs e)
         {
-
+            ver.Text = "رقم اصدارة النظام: " + Program.APP_Ver;
+            labelCopyright.Text = "Copyright ©" + DateTime.Now.Year;
         }
 
         private void labelCopyright_Click(object sender, EventArgs e)

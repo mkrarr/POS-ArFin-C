@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 using System.Data;
+
 namespace POS.DAL
 {
     class DataAccessLayer
@@ -13,12 +14,12 @@ namespace POS.DAL
         {
             if (Properties.Settings.Default.mode == "SQL")
             {
-                sqlconnection = new SqlConnection(@"server=" + Properties.Settings.Default.Server + ";database=" + Properties.Settings.Default.Database + ";Integrated security=false;user id="+ Properties.Settings.Default.ID +";password="+Properties.Settings.Default.password+"");
+                sqlconnection = new SqlConnection(@"server=" + Properties.Settings.Default.Server + ";database=" + Properties.Settings.Default.Database + ";Integrated security=false;user id="+ Properties.Settings.Default.ID +";password="+Properties.Settings.Default.password+ ";Application Name = "+Properties.Settings.Default.Appname +" ");
 
             }
             else 
             {
-                sqlconnection = new SqlConnection(@"server=" + Properties.Settings.Default.Server + ";database=" + Properties.Settings.Default.Database + "; Integrated Security=true");
+                sqlconnection = new SqlConnection(@"server=" + Properties.Settings.Default.Server + ";database=" + Properties.Settings.Default.Database + "; Integrated Security=true Application Name = MK-SMS;");
             }
             }
         public void Conn()
@@ -26,6 +27,7 @@ namespace POS.DAL
              SqlConnection con = new SqlConnection(@"server=192.168.1.9\SQLEXPRESS,1433;database=Product_DB;Integrated security=false;user id=admin22;password=123456");
 
         }
+        //Open Connection
         public void open()
         {
             if (sqlconnection.State != ConnectionState.Open)
@@ -71,6 +73,7 @@ namespace POS.DAL
             {
                 sqlcmd.Parameters.AddRange(parm);
             }
+            
             sqlcmd.ExecuteNonQuery();
         }
     }

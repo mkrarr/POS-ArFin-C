@@ -58,6 +58,7 @@
             this.lstPrinterList.Name = "lstPrinterList";
             this.lstPrinterList.Size = new System.Drawing.Size(511, 328);
             this.lstPrinterList.TabIndex = 2;
+            this.lstPrinterList.SelectedIndexChanged += new System.EventHandler(this.lstPrinterList_SelectedIndexChanged);
             this.lstPrinterList.DoubleClick += new System.EventHandler(this.lstPrinterList_DoubleClick);
             // 
             // groupBox1
@@ -79,7 +80,7 @@
             this.ClientSize = new System.Drawing.Size(517, 404);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Printer_list";

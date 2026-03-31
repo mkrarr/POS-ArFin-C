@@ -131,13 +131,15 @@ namespace POS.PL
 
         private void button5_Click(object sender, EventArgs e)
         {
-            bmb.RemoveAt(bmb.Position);
-            bmb.EndCurrentEdit();
-            cmdb = new SqlCommandBuilder(da);
-            da.Update(dt);
-            MessageBox.Show("Delete Done", "Add", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            lab3.Text = (bmb.Position + 1) + "  /  " + bmb.Count;
-
+            if (MessageBox.Show(" \n ستحذف الاصناف  هل انت واثق من العملية", "حزف", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                bmb.RemoveAt(bmb.Position);
+                bmb.EndCurrentEdit();
+                cmdb = new SqlCommandBuilder(da);
+                da.Update(dt);
+                MessageBox.Show("Delete Done", "Add", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                lab3.Text = (bmb.Position + 1) + "  /  " + bmb.Count;
+            }
         }
 
         private void button6_Click(object sender, EventArgs e)

@@ -17,12 +17,20 @@ namespace POS.PL
 
         public string state = "add";
         BL.CLS_PRODUCTS prd = new BL.CLS_PRODUCTS();
+        int ser = 1;
         public FRM_ADD_PRODECT()
         {
             InitializeComponent();
             cmdcategories.DataSource = prd.GET_ALL_CATEGORIES();
             cmdcategories.DisplayMember = "DESCRIPTION_CAT";
             cmdcategories.ValueMember = "ID_CAT";
+
+            pro_ty.DataSource = prd.pro_type();
+            pro_ty.DisplayMember = "Val2";
+            pro_ty.ValueMember = "val1";
+
+            txtmname.DataSource = prd.g_name();
+            txtmname.DisplayMember = "m_name";
 
         }
 
@@ -38,7 +46,15 @@ namespace POS.PL
 
         private void FRM_ADD_PRODECT_Load(object sender, EventArgs e)
         {
-
+            if(Program.PAT=="1")
+            {
+                txtqte.ReadOnly = true;
+                txtprice.ReadOnly = true;
+                txtbprice.ReadOnly = true;
+                txtbprice.Text = "0";
+                txtqte.Text = "0";
+                txtprice.Text = "0";
+            }
         }
 
         private void btnok_Click(object sender, EventArgs e)
@@ -48,8 +64,8 @@ namespace POS.PL
                 MemoryStream ms = new MemoryStream();
                 pbox.Image.Save(ms, pbox.Image.RawFormat);
                 byte[] byteImage = ms.ToArray();
-                prd.ADD_PRODUCT(Convert.ToInt32(cmdcategories.SelectedValue), txtdes.Text, txtref.Text, Convert.ToInt32(txtqte.Text), txtprice.Text,txtbprice.Text, byteImage);
-                MessageBox.Show("Add Saccesful...", "Add Proccess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                prd.ADD_PRODUCT(Convert.ToInt32(cmdcategories.SelectedValue), txtdes.Text, txtref.Text, Convert.ToInt32(txtqte.Text), txtprice.Text, txtbprice.Text, byteImage, txtmname.Text, Convert.ToInt32(pro_ty.SelectedValue));
+                MessageBox.Show("تم الخفظ", "حفظ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             else
@@ -57,12 +73,11 @@ namespace POS.PL
                 MemoryStream ms = new MemoryStream();
                 pbox.Image.Save(ms, pbox.Image.RawFormat);
                 byte[] byteImage = ms.ToArray();
-                prd.UPDATE_PRODUCT(Convert.ToInt32(cmdcategories.SelectedValue), txtdes.Text, txtref.Text, Convert.ToInt32(txtqte.Text), txtprice.Text,txtbprice.Text, byteImage);
-                MessageBox.Show("Update Saccesful...", "Update Proccess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                prd.UPDATE_PRODUCT(Convert.ToInt32(cmdcategories.SelectedValue), txtdes.Text, txtref.Text, Convert.ToInt32(txtqte.Text), txtprice.Text, txtbprice.Text, byteImage, txtmname.Text, Convert.ToInt32(pro_ty.SelectedValue));
+                MessageBox.Show("تم  التعديل", "تعديل", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
-                FRM_PRODUCTS.getMainForm.dataGridView1.DataSource = prd.GET_ALL_PRODUCTS();
-
+            FRM_PRODUCTS.getMainForm.dataGridView1.DataSource = prd.GET_ALL_PRODUCTS();
         }
 
         private void txtref_TextChanged(object sender, EventArgs e)
@@ -99,6 +114,22 @@ namespace POS.PL
         private void txtqte_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox1.Checked==true)
+            {
+                ser = 2;
+            }else
+            {
+                ser = 2;
+            }
         }
     }
 }

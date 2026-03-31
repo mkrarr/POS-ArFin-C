@@ -106,5 +106,11 @@ namespace POS.PL
         {
             Close();
         }
+
+        private void AboutBox1_Load(object sender, EventArgs e)
+        {
+            ver.Text = "رقم اصدارة النظام: " + Program.APP_Ver;
+            labelCopyright.Text = "Copyright ©" + DateTime.Now.Year;
+        }
     }
 }

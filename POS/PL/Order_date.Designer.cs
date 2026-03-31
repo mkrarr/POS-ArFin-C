@@ -64,24 +64,28 @@
             // 
             // date1
             // 
+            this.date1.Font = new System.Drawing.Font("Cairo", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.date1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.date1.Location = new System.Drawing.Point(101, 9);
+            this.date1.Location = new System.Drawing.Point(372, 8);
             this.date1.Name = "date1";
-            this.date1.Size = new System.Drawing.Size(209, 20);
+            this.date1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.date1.Size = new System.Drawing.Size(209, 28);
             this.date1.TabIndex = 37;
             // 
             // date2
             // 
+            this.date2.Font = new System.Drawing.Font("Cairo", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.date2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.date2.Location = new System.Drawing.Point(355, 9);
+            this.date2.Location = new System.Drawing.Point(139, 8);
             this.date2.Name = "date2";
-            this.date2.Size = new System.Drawing.Size(200, 20);
+            this.date2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.date2.Size = new System.Drawing.Size(200, 28);
             this.date2.TabIndex = 38;
             // 
             // button3
             // 
             this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
-            this.button3.Location = new System.Drawing.Point(355, 374);
+            this.button3.Location = new System.Drawing.Point(284, 375);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(55, 31);
             this.button3.TabIndex = 36;
@@ -91,7 +95,7 @@
             // button2
             // 
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Location = new System.Drawing.Point(246, 374);
+            this.button2.Location = new System.Drawing.Point(355, 375);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(55, 31);
             this.button2.TabIndex = 35;
@@ -101,9 +105,9 @@
             // button1
             // 
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(561, 9);
+            this.button1.Location = new System.Drawing.Point(95, 8);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(38, 20);
+            this.button1.Size = new System.Drawing.Size(38, 28);
             this.button1.TabIndex = 34;
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -111,22 +115,24 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(316, 11);
+            this.label1.Font = new System.Drawing.Font("Cairo", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(339, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 15);
+            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label1.Size = new System.Drawing.Size(27, 20);
             this.label1.TabIndex = 33;
-            this.label1.Text = "TO  ";
+            this.label1.Text = "الى";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(55, 11);
+            this.label2.Font = new System.Drawing.Font("Cairo", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(581, 11);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 15);
+            this.label2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label2.Size = new System.Drawing.Size(24, 20);
             this.label2.TabIndex = 32;
-            this.label2.Text = "From";
+            this.label2.Text = "من";
             // 
             // Order_date
             // 
@@ -146,7 +152,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Order_date";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Order By Date";
+            this.Text = "المبيعات بالتاريخ";
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

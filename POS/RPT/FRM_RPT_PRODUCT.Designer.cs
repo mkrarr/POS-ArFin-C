@@ -40,22 +40,26 @@
             this.CR1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CR1.Location = new System.Drawing.Point(0, 0);
             this.CR1.Name = "CR1";
-            this.CR1.Size = new System.Drawing.Size(796, 497);
-            this.CR1.TabIndex = 0;
+            this.CR1.ShowCopyButton = false;
+            this.CR1.ShowGotoPageButton = false;
+            this.CR1.ShowParameterPanelButton = false;
+            this.CR1.Size = new System.Drawing.Size(795, 497);
+            this.CR1.TabIndex = 1;
             this.CR1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
-            this.CR1.Load += new System.EventHandler(this.CR1_Load);
+            this.CR1.ToolPanelWidth = 267;
+            this.CR1.Load += new System.EventHandler(this.CR1_Load_1);
             // 
             // FRM_RPT_PRODUCT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(796, 497);
+            this.ClientSize = new System.Drawing.Size(795, 497);
             this.Controls.Add(this.CR1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FRM_RPT_PRODUCT";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "REPORT";
+            this.Text = " ";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
 
@@ -64,6 +68,5 @@
         #endregion
 
         public CrystalDecisions.Windows.Forms.CrystalReportViewer CR1;
-
     }
 }

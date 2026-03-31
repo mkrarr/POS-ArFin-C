@@ -42,5 +42,13 @@ namespace POS.PL
             this.Close();
 
         }
+
+        private void dgvCL_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space)
+            {
+                this.Close();
+            }
+        }
     }
 }

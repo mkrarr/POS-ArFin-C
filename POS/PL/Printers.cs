@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Management;
 
 namespace POS.PL
 {
@@ -15,14 +16,20 @@ namespace POS.PL
         public Printers()
         {
             InitializeComponent();
+            txtinv.Text= Properties.Settings.Default.PrinterR ;
+            txtrep.Text= Properties.Settings.Default.PrinterRPT ;
+            imgP.Text = Properties.Settings.Default.m_path;
         }
 
         private void button11_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.PrinterR = txtinv.Text;
             Properties.Settings.Default.PrinterRPT = txtrep.Text;
+            Properties.Settings.Default.qr_path = imgP.Text + @"\MKQR.png";
+            Properties.Settings.Default.BR_path = imgP.Text + @"\MKBR.png";
+            Properties.Settings.Default.m_path = imgP.Text;
             Properties.Settings.Default.Save();
-            MessageBox.Show("           Prenters Save Done         ", "Save", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            MessageBox.Show("          تم تعديل الضبط          ", "الضبط", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             this.Close();
         }
 
@@ -55,6 +62,28 @@ namespace POS.PL
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Printers_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog ff = new FolderBrowserDialog();
+            ff.ShowDialog();
+            imgP.Text=ff.SelectedPath.ToString();
+        }
+
+        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
+        {
+
         }
     }
 }

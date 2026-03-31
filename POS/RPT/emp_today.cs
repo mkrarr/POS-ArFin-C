@@ -98,9 +98,17 @@ namespace POS.RPT {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_emp_name {
+        public CrystalDecisions.Shared.IParameterField Parameter_Eday {
             get {
                 return this.DataDefinition.ParameterFields[1];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.Shared.IParameterField Parameter_emp_name {
+            get {
+                return this.DataDefinition.ParameterFields[2];
             }
         }
     }

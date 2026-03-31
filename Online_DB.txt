@@ -1,0 +1,16 @@
+workstation id=MKSMSDB0914240060.mssql.somee.com;packet size=4096;user id=Moe_SQLLogin_14;pwd=c5fiz2e4zu;data source=MKSMSDB0914240060.mssql.somee.com;persist security info=False;initial catalog=MKSMSDB0914240060
+
+
+Server: MKSMSDB0914240060.mssql.somee.com
+ID: Moe_SQLLogin_14
+PWD: c5fiz2e4zu
+DB: MKSMSDB0914240060
+
+
+____________
+Visa SA
+-----------------------------------------------------------------------
+_____________________________________________________
+Wod    P: P09809042   R:E291123095		#6092946672
+_____________________________________________________
+Hifa   P: P06834770   R:E291121603		#6092946935

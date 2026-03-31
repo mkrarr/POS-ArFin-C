@@ -58,5 +58,10 @@ namespace POS.PL
 
             }
         }
+
+        private void lstPrinterList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
